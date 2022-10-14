@@ -8,23 +8,37 @@ exports.serverOptions = {
   port: 80
 }
 
-// // 从环境变量中读取数据库配置
-const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
+// // // 从环境变量中读取数据库配置
+// const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 
-const [host, port] = MYSQL_ADDRESS.split(":");
+// const [host, port] = MYSQL_ADDRESS.split(":");
+
+// const MysqlConfig = {
+//   port: '23247',
+//   host: 'sh-cynosdbmysql-grp-ca1lndnc.sql.tencentcdb.com',
+//   username: 'hhh'
+// }
+
+const MysqlConfig = {
+  port: '3306',
+  host: '10.13.107.2',
+  username: 'root'
+}
 
 //mysql数据库配置
 exports.mysqlOptions = {
   //数据库名称
   database: 'gmgy',
   //用户名
-  username: 'root',
+  username: MysqlConfig.username,
+  // 端口号
+  port: MysqlConfig.port,
+
   //密码
   password: 'Hhh123456',
 
   //连接地址
-  host: port,
-
+  host: MysqlConfig.host,
   //连接数据库类型
   dialect: 'mysql',
   //时区

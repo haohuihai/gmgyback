@@ -7,7 +7,7 @@ let Sequelize = require('sequelize');
 let sequize = new Sequelize(config.mysqlOptions.database, config.mysqlOptions.username, config.mysqlOptions.password, {
   //连接地址
   host: config.mysqlOptions.host,
-
+  port: config.mysqlOptions.port,
   //连接数据库类型
   dialect: config.mysqlOptions.dialect,
 
