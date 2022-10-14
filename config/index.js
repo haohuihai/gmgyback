@@ -5,10 +5,10 @@ exports.serverOptions = {
   //地址
   host: 'http://localhost',
   //端口
-  port: 10003
+  port: 80
 }
 
-// 从环境变量中读取数据库配置
+// // 从环境变量中读取数据库配置
 const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 
 const [host, port] = MYSQL_ADDRESS.split(":");
@@ -18,9 +18,9 @@ exports.mysqlOptions = {
   //数据库名称
   database: 'gmgy',
   //用户名
-  username: MYSQL_USERNAME,
+  username: 'root',
   //密码
-  password: MYSQL_PASSWORD,
+  password: 'Hhh123456',
 
   //连接地址
   host: port,
