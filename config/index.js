@@ -8,17 +8,22 @@ exports.serverOptions = {
   port: 10003
 }
 
+// 从环境变量中读取数据库配置
+const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
+
+const [host, port] = MYSQL_ADDRESS.split(":");
+
 //mysql数据库配置
 exports.mysqlOptions = {
   //数据库名称
   database: 'gmgy',
   //用户名
-  username: 'gmgy',
+  username: MYSQL_USERNAME,
   //密码
-  password: '123456',
+  password: MYSQL_PASSWORD,
 
   //连接地址
-  host: '127.0.0.1',
+  host: port,
 
   //连接数据库类型
   dialect: 'mysql',
