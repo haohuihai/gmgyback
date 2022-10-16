@@ -1,4 +1,5 @@
-let Action = require(__basename + '/db/model/user.js')
+let User = require(__basename + '/db/model/user.js')
 module.exports = {
-    Action
+    User,
+
 }

@@ -16,7 +16,7 @@ exports.serverOptions = {
 // const MysqlConfig = {
 //   port: '23247',
 //   host: 'sh-cynosdbmysql-grp-ca1lndnc.sql.tencentcdb.com',
-//   username: 'hhh'
+//   username: 'root'
 // }
 
 const MysqlConfig = {
