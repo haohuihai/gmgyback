@@ -52,6 +52,12 @@ app.all("*", (req, res, next) => {
     //允许通过
     next();
   });
+  app.all('/', (req,res) => {
+    res.send({
+      header: req.headers,
+      get: req.query
+    })
+  })
 // 获取计数
   app.get("/api/count", async (req, res) => {
     res.send({
