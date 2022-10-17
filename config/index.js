@@ -13,17 +13,26 @@ exports.serverOptions = {
 
 // const [host, port] = MYSQL_ADDRESS.split(":");
 
+// 本地调试线上mysql
 // const MysqlConfig = {
 //   port: '23247',
 //   host: 'sh-cynosdbmysql-grp-ca1lndnc.sql.tencentcdb.com',
 //   username: 'root'
 // }
 
+// 线上配置
 const MysqlConfig = {
   port: '3306',
   host: '10.13.107.2',
   username: 'root'
 }
+
+// 本地数据库配置
+// const MysqlConfig = {
+//   port: '3306',
+//   host: '127.0.0.1',
+//   username: 'gmgy'
+// }
 
 //mysql数据库配置
 exports.mysqlOptions = {

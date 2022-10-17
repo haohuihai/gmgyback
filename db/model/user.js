@@ -107,6 +107,12 @@ User.init({
     allowNull: true,
     defaultValue: '',
     comment: '用户手机'
+  },
+  integral: {
+    type: Sequelize.INTEGER(15),
+    allowNull: false,
+    defaultValue: 0,
+    comment: '用户总积分'
   }
 },
  {

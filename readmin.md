@@ -56,5 +56,19 @@
 | sign_points  |           | 签到坐标       |      |         |
 
 
+
+## 积分表
+
+| 字段名称              | 数据类型  | 说明       | 备注 | 主/外键 |
+| --------------------- | --------- | ---------- | ---- | ------- |
+| integral_id           | varchar() | 积分id     |      | 主键    |
+| weixin_openid         | varchar() | 用户openid |      | 外键    |
+| current_value         | varchar() | 当前积分值 |      |         |
+| max_integral_val      | varchar   | 最大积分   |      |         |
+| integral_change_name  | varchar   | 变更名称   |      |         |
+| integral_change_value | varchar   | 变更值     |      |         |
+
+积分表主要记录用户获得积分的，目前主要通过注册、等这些来获得积分   查积分取当前积分就可以了
+
 数据库密码
 Hhh123456

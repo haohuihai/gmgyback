@@ -20,6 +20,19 @@ let Op = Sequelize.Op;
 let token = "";
 
 class ControlUser {
+
+  addIntegar (obj ,result) {
+    api.createData('Integral', {
+      weixin_openid: obj.weixin_openid,
+      integral_change_name: obj.changeName,
+      integral_change_value: obj.changeValue,
+    }).then((result1) => {
+      // 这里用户注册,默认加10积分
+      res.send({ status: "SUCCESS", result: result });
+    }).catch ((err) => {
+      res.send({ status: "fail", msg: '积分添加失败:' + err });
+    })
+  }
   login(req, res) {
     console.log('req.headers', req.headers)
     let obj = {
@@ -29,21 +42,24 @@ class ControlUser {
       gender: req.body.gender,
       address: req.body.province,
     };
-    console.log('req.body', req.body)
     api
       .findData("User", {
-        weixin_openid: req.headers['x-wx-openid'],
+        weixin_openid: obj.weixin_openid,
       })
       .then((result1) => {
         if (result1.length === 0) {
           //账号没有注册
           api
-            .createData("User", obj)
+            .createData("User", {...obj, ...{integral: 10}})
             .then((result) => {
-              res.send({ status: "SUCCESS", result: result });
+                this.addIntegar({
+                  weixin_openid: obj.weixin_openid,
+                  changeName: '注册积分',
+                  changeValue: 10
+                }, result)
             })
             .catch((err) => {
-              res.send({ status: "fail", msg: err });
+              res.send({ status: "fail", msg: '创建用户:'+ err });
             });
         } else {
           // 账号已经注册过  更新数据
@@ -54,7 +70,7 @@ class ControlUser {
                res.send({ status: "SUCCESS", result: {...result1[0].dataValues, ...obj }});
             })
             .catch((err) => {
-                res.send({ status: "fail", msg: err});
+                res.send({ status: "fail1", msg: '更新用户:' + err});
             });
         }
       })
