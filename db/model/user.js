@@ -60,6 +60,12 @@ User.init({
     defaultValue: '',
     comment: '微信昵称'
   },
+  unionid: {
+    type: Sequelize.STRING(50),
+    defaultValue: '',
+    allowNull: true,
+    comment: '用户唯一id'
+  },
   //密码
   password: {
     type: Sequelize.STRING(32),

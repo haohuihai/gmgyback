@@ -5,7 +5,7 @@ exports.serverOptions = {
   //地址
   host: 'http://localhost',
   //端口
-  port: 80
+  port: 1000
 }
 
 // // // 从环境变量中读取数据库配置
@@ -20,18 +20,17 @@ exports.serverOptions = {
 //   username: 'root'
 // }
 
-// 线上配置
-const MysqlConfig = {
-  port: '3306',
-  host: '10.13.107.2',
-  username: 'root'
-}
 
 // 本地数据库配置
+const MysqlConfig = {
+  port: '3306',
+  host: '127.0.0.1',
+  username: 'gmgy'
+}
 // const MysqlConfig = {
 //   port: '3306',
-//   host: '127.0.0.1',
-//   username: 'gmgy'
+//   host: '10.13.107.2',
+//   username: 'root'
 // }
 
 //mysql数据库配置
