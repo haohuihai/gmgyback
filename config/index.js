@@ -1,12 +1,6 @@
 //配置层
 const Core = require('@alicloud/pop-core');
-//服务器配置
-exports.serverOptions = {
-  //地址
-  host: 'http://localhost',
-  //端口
-  port: 80
-}
+
 
 // // // 从环境变量中读取数据库配置
 // const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
@@ -18,21 +12,35 @@ exports.serverOptions = {
 //   port: '23247',
 //   host: 'sh-cynosdbmysql-grp-ca1lndnc.sql.tencentcdb.com',
 //   username: 'root'
+//   servicePort: 80
 // }
 
 // 线上配置
-const MysqlConfig = {
-  port: '3306',
-  host: '10.13.107.2',
-  username: 'root'
-}
-
-// 本地数据库配置
 // const MysqlConfig = {
 //   port: '3306',
-//   host: '127.0.0.1',
-//   username: 'gmgy'
+//   host: '10.13.107.2',
+//   username: 'root',
+//   servicePort: 80
 // }
+
+// 本地数据库配置
+const MysqlConfig = {
+  port: '3306',
+  host: '127.0.0.1',
+  username: 'gmgy',
+  servicePort: 10000
+}
+
+
+//服务器配置
+exports.serverOptions = {
+  //地址
+  host: 'http://localhost',
+  //端口
+  port: MysqlConfig.servicePort
+}
+
+
 
 //mysql数据库配置
 exports.mysqlOptions = {
