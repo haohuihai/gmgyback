@@ -37,6 +37,7 @@ class ControlUser {
     console.log('req.headers', req.headers)
     let obj = {
       weixin_openid: req.headers['x-wx-openid'],
+      access_token: req.headers['x-wx-cloudbase-access-token'],
       nickname: req.body.nickName,
       avatar: req.body.avatarUrl,
       gender: req.body.gender,
