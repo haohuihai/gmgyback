@@ -79,12 +79,12 @@ class ControlUser {
         res.send({ status: "fail", msg: "登录失败", code: 101 });
       });
   }
-  getMyAction(req, res) {
+  // 获取我的活动
+  get_my_action(req, res) {
     api.findData('Action', {
       weixin_openid: '1',
-    }).then(res => {
-      res.send({ status: "SUCCESS", msg: "获取成功", code: 101 });
-      console.log('res', res);
+    }).then(result => {
+      res.send({ status: "SUCCESS", result: result });
     }).catch(err => {
       res.send({ status: "fail", msg: "获取失败", code: 101 });
     })

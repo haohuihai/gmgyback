@@ -5,8 +5,9 @@ module.exports = (app) => {
     app.get('/test', controlLaction.test)
    
     app.post('/pubishAction', controlActions.pubishAction)
+    app.post('/get_nearly_actions', controlActions.get_nearly_actions)
 
 
     app.post('/login', controlUser.login)
-    app.post('/user/getMyAction', controlUser.getMyAction)
+    app.post('/user/get_my_action', controlUser.get_my_action)
 }

@@ -27,8 +27,8 @@ class ControlAction {
     let o = {
       weixin_openid: '1',
       action_need_number: 100,
-      action_start_time: '2022-10-10',
-      action_end_time: '2022-10-12',
+      action_start_time: '2022-10-10 12:13:40',
+      action_end_time: '2022-10-12 12:13:40',
       action_address: '上海市闵行区',
       action_theme: '爱心帮助',
       action_content: '爱心帮助',
@@ -40,6 +40,20 @@ class ControlAction {
     }).catch(e => {
       res.send({ status: "fail", msg: "任务发布失败", code: 200 });
 
+    })
+  }
+
+  // 获取最新活动
+  get_nearly_actions(req, res) {
+    // 用结束时间大于现在的时间表示还没结束的活动
+    api.findData('Action', {
+      action_end_time: {
+        [Op.gt]: '2022-10-13 12:12:12'
+      }
+    }).then((result) => {
+      res.send({ status: "SUCCESS", result: result, })
+    }).catch(() => {
+      res.send({ status: "fail", msg: "最新活动获取失败", code: 200 })
     })
   }
 }
