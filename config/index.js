@@ -1,12 +1,6 @@
 //配置层
 const Core = require('@alicloud/pop-core');
-//服务器配置
-exports.serverOptions = {
-  //地址
-  host: 'http://localhost',
-  //端口
-  port: 80
-}
+
 
 // // // 从环境变量中读取数据库配置
 // const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
@@ -26,13 +20,27 @@ exports.serverOptions = {
 // const MysqlConfig = {
 //   port: '3306',
 //   host: '127.0.0.1',
-//   username: 'gmgy'
+//   username: 'gmgy',
+//   servicePort: 10000
 // }
+
+//  线上服务
 const MysqlConfig = {
   port: '3306',
   host: '10.13.107.2',
-  username: 'root'
+  username: 'root',
+  servicePort: 80
 }
+
+//服务器配置
+exports.serverOptions = {
+  //地址
+  host: 'http://localhost',
+  //端口
+  port: MysqlConfig.servicePort
+}
+
+
 
 //mysql数据库配置
 exports.mysqlOptions = {
@@ -69,12 +77,12 @@ exports.mysqlOptions = {
 }
 
 //短信验证码登录
-exports.phoneLoginNumber = new Core({
-  accessKeyId: '',
-  accessKeySecret: 'GZqcVS4LBvUU0PLGzFQF8NN8aDdfGY',
-  endpoint: 'https://dysmsapi.aliyuncs.com',
-  apiVersion: '2017-05-25'
-});
+// exports.phoneLoginNumber = new Core({
+//   accessKeyId: '',
+//   accessKeySecret: 'GZqcVS4LBvUU0PLGzFQF8NN8aDdfGY',
+//   endpoint: 'https://dysmsapi.aliyuncs.com',
+//   apiVersion: '2017-05-25'
+// });
 
 //加盐配置
 exports.saltOptions = {
