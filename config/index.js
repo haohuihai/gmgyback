@@ -70,7 +70,7 @@ exports.mysqlOptions = {
 
 //短信验证码登录
 exports.phoneLoginNumber = new Core({
-  accessKeyId: 'LTAI4GHMn7MQgm1MqG5jTdHv',
+  accessKeyId: '',
   accessKeySecret: 'GZqcVS4LBvUU0PLGzFQF8NN8aDdfGY',
   endpoint: 'https://dysmsapi.aliyuncs.com',
   apiVersion: '2017-05-25'
@@ -82,7 +82,7 @@ exports.saltOptions = {
 }
 // //短信服务参数
 // exports.phoneQuery = {
-//   accessKeyId: 'LTAI4GHMn7MQgm1MqG5jTdHv',
+//   accessKeyId: '',
 //   accessKeySecret: 'GZqcVS4LBvUU0PLGzFQF8NN8aDdfGY',
 //   endpoint: 'https://dysmsapi.aliyuncs.com',
 //   apiVersion: '2017-05-25',
