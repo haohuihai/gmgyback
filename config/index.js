@@ -17,20 +17,20 @@ const Core = require('@alicloud/pop-core');
 
 
 // 本地数据库配置
-const MysqlConfig = {
-  port: '3306',
-  host: '127.0.0.1',
-  username: 'gmgy',
-  servicePort: 10000
-}
-
-//  线上服务
 // const MysqlConfig = {
 //   port: '3306',
-//   host: '10.13.107.2',
-//   username: 'root',
-//   servicePort: 80
+//   host: '127.0.0.1',
+//   username: 'gmgy',
+//   servicePort: 10000
 // }
+
+//  线上服务
+const MysqlConfig = {
+  port: '3306',
+  host: '10.13.107.2',
+  username: 'root',
+  servicePort: 80
+}
 
 //服务器配置
 exports.serverOptions = {

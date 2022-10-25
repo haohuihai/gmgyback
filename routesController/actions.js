@@ -2,6 +2,7 @@
 //导入处理时间模块 monent
 let moment = require("moment");
 let path = require("path") 
+var dayjs = require('dayjs')
 //导入sequelize
 let Sequelize = require("sequelize");
 
@@ -86,7 +87,8 @@ class ControlAction {
       start_time: req.body.start_time,
       end_time: req.body.end_time,
     }
-
+    let current = dayjs().format('YYYY-MM-DD HH:mm:ss')
+    // 当前活动开始的时间 > 
     api.createData('UserAction', {...obj}).then((result) => {
       res.send({ status: "SUCCESS", result: result })
     }).catch(err => {
