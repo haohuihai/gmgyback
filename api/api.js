@@ -7,14 +7,16 @@ class API {
     }
   
     //查询数据
-    findData(modelName, condition, attributes) {
-      //modelName: 模型名称, string
-      //condition: 查询条件, object
-      //attributes: 查询字段, array [字段名1, 字段名1, ...]
-      console.log(`condition`, condition);
+    findData(modelName, condition, attributes, orders = []) {
+      // modelName: 模型名称, string
+      // condition: 查询条件, object
+      // attributes: 查询字段, array [字段名1, 字段名1, ...]
+      // orders    排序字段  []
+      console.log('orders', orders)
       return Model[modelName].findAll({
         attributes,
         where: condition,
+        order: orders
       }).then(res => {
         return res
         

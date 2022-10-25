@@ -23,14 +23,17 @@ class ControlAction {
       res.send({ status: "SUCCESS", msg: "线上测试成功", code: 200 });
   }
   pubishAction (req, res) {
+
+    console.log('req.body', req.body)
+    
     let o = {
-      weixin_openid: '1',
-      action_need_number: 100,
-      action_start_time: '2022-10-10 12:13:40',
-      action_end_time: '2022-10-12 12:13:40',
-      action_address: '上海市闵行区',
-      action_theme: '爱心帮助',
-      action_content: '爱心帮助',
+      weixin_openid: req.headers['x-wx-openid'],
+      action_need_number: req.body.action_need_number,
+      action_start_time: req.body.action_start_time,
+      action_end_time: req.body.action_end_time,
+      action_address: req.body.action_address,
+      action_theme: req.body.action_theme,
+      action_content: req.body.action_content,
     }
     api.createData('Action',o).then((result) => {
       console.log('result', result);
@@ -42,8 +45,8 @@ class ControlAction {
     })
   }
 
-  // 获取最新活动
-  get_nearly_actions(req, res) {
+  // 通过条件 获取活动
+  get_lately_actions(req, res) {
     // 用结束时间大于现在的时间表示还没结束的活动
     api.findData('Action', {
       action_end_time: {
@@ -55,6 +58,44 @@ class ControlAction {
       res.send({ status: "fail", msg: "最新活动获取失败", code: 200 })
     })
   }
+  // 列举我的活动 根据最新时间排序
+  get_my_action (req, res) {
+    api.findData('Action', {
+      weixin_openid: req.headers['x-wx-openid'], 
+    },
+    undefined,
+    [['action_start_time', 'ASC']] 
+    ).then((result) => {
+      res.send({ status: "SUCCESS", result: result, })
+    }).catch ((err) => {
+      res.send({ status: "fail", msg: "获取我的活动失败", code: 200 })
+    })
+  }
+  
+  // 加入活动  不打卡
+  join_action(req, res) {
+    // 后端判断时间
+    // 时间不通过  给出提示
+    // 判断是否已经加入了活动
+
+    // 时间通过
+    // 数据库加入数据
+    let obj = {
+      weixin_openid: req.headers['x-wx-openid'],
+      action_id: req.body.action_id,
+      start_time: req.body.start_time,
+      end_time: req.body.end_time,
+    }
+
+    api.createData('UserAction', {...obj}).then((result) => {
+      res.send({ status: "SUCCESS", result: result })
+    }).catch(err => {
+      res.send({ status: "fail", msg: err, code: 200 })
+    })
+    
+  }
+
+  // 发布活动上传图片
   action_image(req,res) {
     const { originalname } = req.file;
     // 创建一个新路径

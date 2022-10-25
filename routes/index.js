@@ -7,8 +7,10 @@ const upload = multer({ dest: '../upload/article' })
 module.exports = (app) => {
     app.get('/test', controlAction.test)
    
-    app.post('/pubishAction', controlActions.pubishAction)
-    app.post('/get_nearly_actions', controlActions.get_nearly_actions)
+    app.post('/pubish_action', controlActions.pubishAction)
+    app.post('/get_lately_actions', controlActions.get_lately_actions)
+    app.get('/get_my_action', controlActions.get_my_action)
+    app.post('/join_action', controlActions.join_action)
 
 
     app.post('/login', controlUser.login)
