@@ -79,15 +79,5 @@ class ControlUser {
         res.send({ status: "fail", msg: "登录失败", code: 101 });
       });
   }
-  // 获取我的活动
-  get_my_action(req, res) {
-    api.findData('Action', {
-      weixin_openid: '1',
-    }).then(result => {
-      res.send({ status: "SUCCESS", result: result });
-    }).catch(err => {
-      res.send({ status: "fail", msg: "获取失败", code: 101 });
-    })
-  }
 }
 module.exports = new ControlUser();
