@@ -23,7 +23,8 @@ class ControlAction {
   test(req, res) {
     res.send({ status: "SUCCESS", msg: "线上测试成功", code: 200 });
   }
-  pubishAction(req, res) {
+  // 发布活动
+  pubish_action(req, res) {
     console.log("req.body", req.body);
 
     let o = {
@@ -62,13 +63,16 @@ class ControlAction {
         res.send({ status: "fail", msg: "最新活动获取失败", code: 200 });
       });
   }
-  // 列举我的活动 根据最新时间排序
+  // 列举我的活动 根据可筛选   最新时间排序
   get_my_action(req, res) {
     api
       .findData(
         "Action",
         {
           weixin_openid: req.headers["x-wx-openid"],
+          // 
+          // 
+
         },
         undefined,
         [["action_start_time", "ASC"]]
@@ -96,16 +100,30 @@ class ControlAction {
       end_time: req.body.end_time,
     };
 
+    // 查找是否已经加入
+    api.findData('UserAction', {
+      action_id: req.body.action_id,
+      weixin_openid: req.headers["x-wx-openid"],
+    }).then((result1) => {
+      console.log();
+      if(result1.length) {
+        res.send({status: "SUCCESS", msg: '已加入该活动'})
+      } else {
+        // 当前活动开始的时间 > 
+        api.createData("UserAction", { ...obj })
+        .then((result) => {
+          res.send({ status: "SUCCESS", result: result });
+        })
+        .catch((err) => {
+          res.send({ status: "fail", msg: err, code: 200 });
+        });
+      }
+    }).catch(err => {
+      res.send({ status: "fail", msg: err, code: 200 });
+    })
     let current = dayjs().format("YYYY-MM-DD HH:mm:ss");
     
-    // 当前活动开始的时间 > 
-    api.createData("UserAction", { ...obj })
-      .then((result) => {
-        res.send({ status: "SUCCESS", result: result });
-      })
-      .catch((err) => {
-        res.send({ status: "fail", msg: err, code: 200 });
-      });
+    
   }
 
   // 发布活动上传图片

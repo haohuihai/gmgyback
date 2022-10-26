@@ -89,13 +89,15 @@
 | my_action_id          |varchar()  |              | 自增 |  主键    |
 | action_id             | varchar() | 活动id       |      |     |
 | weixin_openid         | varchar() | 用户id       |      |         |
-| start_time | varchar() | 加入时间 |      |         |
-| end_time | varchar   | 结束时间 |      |         |
+| start_time | varchar() | 打卡开始时间 |      |         |
+| end_time | varchar   | 打卡开始时间 |      |         |
 | late_time |           | 迟到时长 |      |         |
 | action_address |           | 打卡地点 |      |         |
 |                |           |          |      |         |
 
 个人参加活动，主要用于记录个人参加记录，通过链表查询，查活动相关信息，通过自己的打卡时间和结束时间，来记录自己的志愿时长；
+
+
 
 参加活动条件：
 
