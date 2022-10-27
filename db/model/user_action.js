@@ -32,6 +32,11 @@ UserAction.init({
     allowNull: true,
     comment: '活动id'
   },
+  is_join: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    comment: '是否参加'
+  },
   weixin_openid: {
     type: Sequelize.STRING(150),
     defaultValue: '',
@@ -42,13 +47,13 @@ UserAction.init({
     type: Sequelize.DATE,
     defaultValue: new Date(),
     allowNull: true,
-    comment: '开始时间'
+    comment: '用户打卡开始时间'
   },
   end_time: {
     type: Sequelize.DATE,
     defaultValue: new Date(),
     allowNull: true,
-    comment: '结束时间'
+    comment: '用户打卡结束时间'
   },
 
   late_time: {

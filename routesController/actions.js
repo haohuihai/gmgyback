@@ -64,10 +64,23 @@ class ControlAction {
       });
   }
   // 列举我的活动 根据可筛选   最新时间排序
+
+  // 获取我的所有活动
+  // 获取我打卡后的活动
+  // 获取我未打卡的活动
+  // 获取已失效的活动
+  // 
   get_my_action(req, res) {
+    let obj = {}
+    obj = {
+      is_join: req.query.is_join
+    }
+    obj = {
+      
+    }
     api
       .findData(
-        "Action",
+        "UserAction",
         {
           weixin_openid: req.headers["x-wx-openid"],
           // 
@@ -75,7 +88,7 @@ class ControlAction {
 
         },
         undefined,
-        [["action_start_time", "ASC"]]
+        [["start_time", "ASC"]]
       )
       .then((result) => {
         res.send({ status: "SUCCESS", result: result });
@@ -84,6 +97,8 @@ class ControlAction {
         res.send({ status: "fail", msg: "获取我的活动失败", code: 200 });
       });
   }
+
+  
 
   // 加入活动  不打卡
   join_action(req, res) {
