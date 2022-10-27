@@ -57,18 +57,32 @@ action_current_number: {
     defaultValue: new Date(),
     comment: '结束时间'
   },
+  action_latitude: {
+    type: Sequelize.DOUBLE,
+    comment: '地址纬度'
+  },
+  action_longitude: {
+    type: Sequelize.DOUBLE,
+    comment: '地址经度'
+  },
   action_address: {
-    type: Sequelize.STRING(32),
+    type: Sequelize.STRING(100),
     allowNull: false,
     defaultValue: '',
     comment: '活动地址'
+  },
+  action_address_name: {
+    type: Sequelize.STRING(100),
+    allowNull: false,
+    defaultValue: '',
+    comment: '详细地址'
   },
   action_theme: {
       type: Sequelize.STRING(100),
       allowNull: true,
       defaultValue: '',
       comment: '活动主题'
-    },
+  },
   action_content: {
     type: Sequelize.STRING(1000),
     allowNull: false,
