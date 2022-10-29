@@ -94,7 +94,14 @@ action_current_number: {
     allowNull: false,
     defaultValue: '',
     comment: '活动封面'
-  }
+  },
+  is_pass: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: '活动是否审核通过'
+  },
+  
 },
  {
   //配置

@@ -72,21 +72,21 @@ class ControlAction {
   // 
   get_my_action(req, res) {
     let obj = {}
+    // 获取我的所有活动
     obj = {
-      is_join: req.query.is_join
+      weixin_openid: req.headers["x-wx-openid"],
     }
-    obj = {
+    // 获取我是否参加过了的活动
+    // obj = {
+    //   is_join: req.query.is_join
+    // }
+    // obj = {
       
-    }
+    // }
     api
       .findData(
         "UserAction",
-        {
-          weixin_openid: req.headers["x-wx-openid"],
-          // 
-          // 
-
-        },
+        obj,
         undefined,
         [["start_time", "ASC"]]
       )
