@@ -46,15 +46,15 @@ action_current_number: {
   },
 
   action_start_time: {
-    type: Sequelize.DATE,
+    type: Sequelize.BIGINT(100),
     allowNull: true,
-    defaultValue: new Date(),
+    defaultValue: 0,
     comment: '开始时间'
   },
   action_end_time: {
-    type: Sequelize.DATE,
+    type: Sequelize.BIGINT(100),
     allowNull: true,
-    defaultValue: new Date(),
+    defaultValue: 0,
     comment: '结束时间'
   },
   action_latitude: {

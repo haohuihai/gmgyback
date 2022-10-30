@@ -35,6 +35,9 @@ class ControlAction {
       action_address: req.body.action_address,
       action_theme: req.body.action_theme,
       action_content: req.body.action_content,
+      action_image: req.body.action_image,
+      action_latitude: req.body.action_latitude,
+      action_longitude: req.body.action_longitude
     };
     api
       .createData("Action", o)
@@ -43,7 +46,7 @@ class ControlAction {
         res.send({ status: "SUCCESS", msg: "活动发布成功", code: 200 });
       })
       .catch((e) => {
-        res.send({ status: "fail", msg: "任务发布失败", code: 200 });
+        res.send({ status: "fail", msg: e, code: 200 });
       });
   }
 
@@ -51,11 +54,7 @@ class ControlAction {
   get_lately_actions(req, res) {
     // 用结束时间大于现在的时间表示还没结束的活动
     api
-      .findData("Action", {
-        action_end_time: {
-          [Op.gt]: "2022-10-13 12:12:12",
-        },
-      })
+      .findData("Action")
       .then((result) => {
         res.send({ status: "SUCCESS", result: result });
       })
