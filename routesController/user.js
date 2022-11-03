@@ -33,8 +33,46 @@ class ControlUser {
       res.send({ status: "fail", msg: '积分添加失败:' + err });
     })
   }
+
+  // 实名认证
+  certification(req, res) {
+    let obj = {
+      weixin_openid: req.headers['x-wx-openid'],
+      id_card: req.body.id_card,
+      phone_pumber: req.body.phone_pumber,
+      user_name: req.body.user_name,
+      id_card_image: req.body.id_card_image,
+    }
+
+    api.
+    createData('UserVerify', obj).then((result) => {
+      res.send({ status: "SUCCESS", result });
+    }).catch(err => {
+      res.send({ status: "fail", msg: err });
+    })
+  }
+
+  // 实名认证审核
+  sure_certification(req, res) {
+    let obj = {
+      weixin_openid: req.headers['x-wx-openid'],
+      id_card: req.body.id_card,
+      mobile: req.body.phone_pumber,
+      user_name: req.body.user_name,
+      certification_status: req.body.status,
+    }
+    api.updateData('User', obj, {
+      weixin_openid: req.headers['x-wx-openid'],
+    }).then((result) => {
+      res.send({ status: "SUCCESS", result });
+    }).catch(err => {
+      res.send({ status: "fail", msg: '创建用户:'+ err });
+    })
+  }
+
+  
+  // 登录
   login(req, res) {
-    console.log('req.headers', req.headers)
     let obj = {
       weixin_openid: req.headers['x-wx-openid'],
       access_token: req.headers['x-wx-cloudbase-access-token'],

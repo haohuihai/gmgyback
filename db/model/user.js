@@ -54,11 +54,11 @@ User.init({
     defaultValue: '',
     comment: '昵称'
   },
-  username: {
+  user_name: {
     type: Sequelize.STRING(30),
     allowNull: true,
     defaultValue: '',
-    comment: '微信昵称'
+    comment: '真实姓名'
   },
   unionid: {
     type: Sequelize.STRING(50),
@@ -119,6 +119,11 @@ User.init({
     allowNull: false,
     defaultValue: 0,
     comment: '用户总积分'
+  },
+  certification_status: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    comment: '0，未实名，1，未通过，2已实名，'
   }
 },
  {

@@ -97,7 +97,28 @@ class ControlAction {
       });
   }
 
-  
+  // 获取活动详情   这里可以通过链表查询   用户参加后的记录表  和活动表   通过action_id来查用户和活动详情
+  get_join_action_user (req,res) {
+    api.findData('UserAction', {
+      action_id: req.query.action_id
+    }, [
+      'weixin_openid', 'avatar'
+    ]).then((result) => {
+      res.send({ status: "SUCCESS", result: result });
+    }).catch(err => {
+      res.send({ status: "fail", msg: err });
+    })
+  }
+  // 一个活动对于多个user  一对多查询
+  get_action_detail(req, res) {
+    api.findData('Action', {
+      action_id: req.query.action_id
+    }).then((result) => {
+      res.send({ status: "SUCCESS", result: result });
+    }).catch(err => {
+      res.send({ status: "fail", msg: err });
+    })
+  }
 
   // 加入活动  不打卡
   join_action(req, res) {
@@ -129,15 +150,13 @@ class ControlAction {
           res.send({ status: "SUCCESS", result: result });
         })
         .catch((err) => {
-          res.send({ status: "fail", msg: err, code: 200 });
+          res.send({ status: "fail", msg: err });
         });
       }
     }).catch(err => {
       res.send({ status: "fail", msg: err, code: 200 });
     })
     let current = dayjs().format("YYYY-MM-DD HH:mm:ss");
-    
-    
   }
 
   // 发布活动上传图片
@@ -154,31 +173,18 @@ class ControlAction {
       }
     });
   }
-  delete_a_image(url, name) {
-    var files = [];
-
-    if (fs.existsSync(url)) {
-      //判断给定的路径是否存在
-
-      files = fs.readdirSync(url); //返回文件和子目录的数组
-
-      files.forEach(function (file, index) {
-        var curPath = path.join(url, file);
-
-        if (fs.statSync(curPath).isDirectory()) {
-          //同步读取文件夹文件，如果是文件夹，则函数回调
-          this.delete_a_image(curPath, name);
-        } else {
-          if (file.indexOf(name) > -1) {
-            //是指定文件，则删除
-            fs.unlinkSync(curPath);
-            console.log("删除文件：" + curPath);
-          }
-        }
-      });
+  // 删除活动图片
+  delete_image = async (req, res) => {
+    let url = ''
+    let name = req.query.name
+    if (req.query.type === '1') {
+      url = './upload/action'
     } else {
-      console.log("给定的路径不存在！");
+
     }
+    await utils.delete_a_image(url,  name)
+
+    res.send({ code: 1, msg: "删除成功" });
   }
 }
 

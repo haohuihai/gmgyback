@@ -12,7 +12,6 @@ class API {
       // condition: 查询条件, object
       // attributes: 查询字段, array [字段名1, 字段名1, ...]
       // orders    排序字段  []
-      console.log('orders', orders)
       return Model[modelName].findAll({
         attributes,
         where: condition,

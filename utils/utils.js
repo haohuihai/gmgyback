@@ -14,6 +14,7 @@ var qr = require('qr-image');
 
 //导入发邮件模块
 let nodemailer = require('nodemailer');
+const path = require('path');
 
 //创建发邮件配置
 let transport = nodemailer.createTransport({
@@ -114,11 +115,35 @@ class Uitls {
       })
 
     })
-    
-
-
-
   }
+
+  // 单个删除图片
+  delete_a_image(url, name) {
+  var files = [];
+
+  if (fs.existsSync(url)) {
+    //判断给定的路径是否存在
+    files = fs.readdirSync(url);//返回文件和子目录的数组
+    files.forEach(function (file, index) {
+      var curPath = path.join(url, file);
+
+      if (fs.statSync(curPath).isDirectory()) {
+        //同步读取文件夹文件，如果是文件夹，则函数回调
+        this.delete_a_image(curPath, name);
+      } else {
+        if (file.indexOf(name) > -1) {
+          //是指定文件，则删除
+          fs.unlinkSync(curPath);
+          return {status: 'success'};
+        } else {
+          return {status: 'fail', msg: '没找到文件'};
+        }
+      }
+    });
+  } else {
+    return {status: 'fail', msg: '删除文件失败，路径错误'};
+  }
+}
    // 产随机字符串
    randomNumber() {
     return 'login/' + random(16, { numbers: true })
