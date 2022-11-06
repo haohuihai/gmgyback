@@ -13,12 +13,13 @@ module.exports = (app) => {
     app.get('/action/get_action_detail', controlActions.get_action_detail)
     app.get('/action/get_join_action_user', controlActions.get_join_action_user)
 
-
+    app.get('/user/get_user_info', controlUser.get_user_info)
     app.post('/user/login', controlUser.login)
     app.post('/upload/action_image', upload.single('file'), controlActions.action_image)
     app.get('/upload/delete_image', controlActions.delete_image)
     app.post('/user/certification', controlUser.certification)
     app.post('/user/sure_certification', controlUser.sure_certification)
+    app.post('/user/get_phone_code', controlUser.get_phone_code)
 
 
     

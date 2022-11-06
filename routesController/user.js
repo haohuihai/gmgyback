@@ -13,15 +13,15 @@ let utils = require(__basename + "/utils/utils.js");
 // const BroadcastChannel = require("../BroadcastChannel");
 //导入白名单
 
-const fs = require("fs");
-
 //获取操作符引用
 let Op = Sequelize.Op;
-let token = "";
 
 class ControlUser {
 
+  // 增加积分
   addIntegar (obj ,result) {
+
+    console.log('-----',obj, result)
     api.createData('Integral', {
       weixin_openid: obj.weixin_openid,
       integral_change_name: obj.changeName,
@@ -35,23 +35,64 @@ class ControlUser {
   }
 
   // 实名认证
-  certification(req, res) {
+  certification = async (req, res) => {
     let obj = {
       weixin_openid: req.headers['x-wx-openid'],
       id_card: req.body.id_card,
       phone_pumber: req.body.phone_pumber,
       user_name: req.body.user_name,
       id_card_image: req.body.id_card_image,
+      
     }
+    let value = req.body.phone_pumber;
+    let code = req.body.phone_code;
 
-    api.
-    createData('UserVerify', obj).then((result) => {
-      res.send({ status: "SUCCESS", result });
-    }).catch(err => {
-      res.send({ status: "fail", msg: err });
+    // 查询验证码是否正确；
+    let time = new Date().getTime() - 5 * 60 * 1000;
+    let date = moment(time).format("YYYY-MM-DD HH:mm:ss");
+    //查询数据
+    let dataCode = await api.findData("PhoneCode", {
+                      phone_number: value,
+                      code,
+                      created_at: {
+                        [Op.gte]: date,
+                      },
+                    })
+     if (dataCode && dataCode.length) {
+        api.createData('UserVerify', obj).then((result) => {
+          api.updateData('User', {
+            certification_status: 1
+          }, {
+            weixin_openid: obj.weixin_openid,
+        }).then(() => {
+
+          }).catch(() => {
+
+          })
+            res.send({ status: "SUCCESS", result });
+          }).catch(err => {
+            res.send({ status: "fail", msg: err });
+          })
+     } else {
+      res.send({ status: "fail", msg: '验证码不正确或已过期' });
+     }   
+    }
+  // 获取验证码
+  get_phone_code (req, res) {
+    // 开发环境验证
+    let value = req.body.phoneNumber
+    let code = Math.random().toString().substr(2, 6);
+    api.createData('PhoneCode', {
+      phone_number: value,
+      code,
     })
+    .then(() => {
+      res.send({ status: "SUCCESS", code });
+    })
+    .catch((err) => {
+      res.send({ status: "fail", msg: err });
+    });
   }
-
   // 实名认证审核
   sure_certification(req, res) {
     let obj = {
@@ -69,7 +110,17 @@ class ControlUser {
       res.send({ status: "fail", msg: '创建用户:'+ err });
     })
   }
-
+  // 获取用户信息
+  get_user_info (req,res) {
+    api
+      .findData("User", {
+        weixin_openid: req.headers['x-wx-openid'],
+      }).then(result => {
+        res.send({ status: "SUCCESS", result: result});
+      }).catch(err => {
+        res.send({ status: "fail", msg: err});
+      })
+  }
   
   // 登录
   login(req, res) {
@@ -81,6 +132,7 @@ class ControlUser {
       gender: req.body.gender,
       address: req.body.province,
     };
+    let that = this;
     api
       .findData("User", {
         weixin_openid: obj.weixin_openid,
@@ -91,7 +143,7 @@ class ControlUser {
           api
             .createData("User", {...obj, ...{integral: 10}})
             .then((result) => {
-                this.addIntegar({
+              that.addIntegar({
                   weixin_openid: obj.weixin_openid,
                   changeName: '注册积分',
                   changeValue: 10

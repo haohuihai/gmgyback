@@ -75,7 +75,7 @@ User.init({
   },
   //用户头像
   avatar: {
-      type: Sequelize.STRING(100),
+      type: Sequelize.STRING(200),
       allowNull: true,
       defaultValue: 'http://localhost:10000/default.png',
       comment: '用户头像'
@@ -123,7 +123,7 @@ User.init({
   certification_status: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
-    comment: '0，未实名，1，未通过，2已实名，'
+    comment: '0，未实名，1，审核中，2已实名，3，未通过'
   }
 },
  {
