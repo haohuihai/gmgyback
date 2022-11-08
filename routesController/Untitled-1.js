@@ -3,10 +3,10 @@ const fs = require("fs");
 const path = require('path');
 let url = '../upload/article'
 let name = 'vueinit8.png'
-var files = [];
-console.log(__dirname)
-files = fs.readdirSync('../upload/action');
-console.log(files);
+// var files = [];
+// console.log(__dirname)
+// files = fs.readdirSync('../upload/action');
+// console.log(files);
 // if (fs.existsSync(url)) {
 //   //判断给定的路径是否存在
 
@@ -29,3 +29,23 @@ console.log(files);
 // } else {
 //   console.log("给定的路径不存在！");
 // }
+var random = require('string-random');
+var qr = require('qr-image');
+const clock = require('../examples/clock1')
+function getQRcode(str) {
+  return `data:image/png;base64,${qr.imageSync(str,{ type:'png' }).toString("base64")}`
+}
+let id = '622621199608231919'
+// 截取身份证前6位  年月日   最后四位随机数
+let preId = id.substring(0,6);
+let middle = id.substring(6, 14);
+let endId = random(4, id)
+
+// 生成二维码
+let userQR = getQRcode(preId + middle + endId)
+
+console.log(userQR, preId, middle, endId)
+
+clock(id)
+
+// 调用canvas生成一个名片

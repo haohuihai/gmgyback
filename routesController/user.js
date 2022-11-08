@@ -9,7 +9,7 @@ let Sequelize = require("sequelize");
 //导入API
 let api = require(__basename + "/api/api.js");
 //导入工具模块
-let utils = require(__basename + "/utils/utils.js");
+let { getIdCard } = require(__basename + "/utils/utils.js");
 // const BroadcastChannel = require("../BroadcastChannel");
 //导入白名单
 
@@ -94,13 +94,25 @@ class ControlUser {
     });
   }
   // 实名认证审核
-  sure_certification(req, res) {
+  sure_certification = async (req, res) => {
     let obj = {
       weixin_openid: req.headers['x-wx-openid'],
       id_card: req.body.id_card,
       mobile: req.body.phone_pumber,
       user_name: req.body.user_name,
       certification_status: req.body.status,
+    }
+    // 如果审核通过；
+    // 要生成一个编号；个人二维码；然后生成一个名片
+
+    if (req.body.status === 2) {
+      // 这行执行完会生成一个名片，编号
+      const {onlyRealNameNo, onlyRealQR} = await getIdCard(obj.id_card)
+
+      // 获取名片名称
+      // 在/assets/user/card文件夹下找身份证号对应的id
+
+
     }
     api.updateData('User', obj, {
       weixin_openid: req.headers['x-wx-openid'],
