@@ -20,6 +20,7 @@ module.exports = (app) => {
     app.post('/user/certification', controlUser.certification)
     app.post('/user/sure_certification', controlUser.sure_certification)
     app.post('/user/get_phone_code', controlUser.get_phone_code)
+    app.get('/user/all_user_list',  controlUser.all_user_list)
 
 
     

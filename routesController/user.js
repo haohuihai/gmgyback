@@ -181,5 +181,8 @@ class ControlUser {
         res.send({ status: "fail", msg: "登录失败", code: 101 });
       });
   }
+  all_user_list (req, res) {
+      res.send({status: 'SUCCESS', data: []})
+  }
 }
 module.exports = new ControlUser();
