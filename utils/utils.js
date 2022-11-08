@@ -16,6 +16,8 @@ var qr = require('qr-image');
 let nodemailer = require('nodemailer');
 const path = require('path');
 
+const clock = require('../examples/clock1')
+
 //创建发邮件配置
 let transport = nodemailer.createTransport({
   //主机
@@ -152,6 +154,22 @@ class Uitls {
   // 根据 randomNumber 的随机随机字符串生成base64二维码
   getQRcode(str) {
     return `data:image/png;base64,${qr.imageSync(str,{ type:'png' }).toString("base64")}`
+  }
+
+  getIdCard (id) {
+    // 截取身份证前6位  年月日   最后四位随机数
+    let preId = id.substring(0,6);
+    let middle = id.substring(7, 15);
+    let endId = random(4, id)
+
+    // 生成二维码
+    let userQR = getQRcode(preId + middle + endId)
+    // 生成名片
+    clock()
+    return {
+      onlyRealNameNo: preId + middle + endId,
+      onlyRealQR: userQR,
+    }
   }
 }
 
