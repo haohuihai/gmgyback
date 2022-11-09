@@ -186,6 +186,10 @@ class ControlAction {
 
     res.send({ code: 1, msg: "删除成功" });
   }
+  // 获取所有活动
+  all_action_list(req, res) {
+    res.send({status: 'SUCCESS',result:[]})
+  }
 }
 
 module.exports = new ControlAction();

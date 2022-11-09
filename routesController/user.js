@@ -181,8 +181,16 @@ class ControlUser {
         res.send({ status: "fail", msg: "登录失败", code: 101 });
       });
   }
+  // 获取所有用户
   all_user_list (req, res) {
-      res.send({status: 'SUCCESS', data: []})
+    // 查询条件
+    api.findData('User' ).then((result) => {
+      console.log('result', result)
+      res.send({status: 'SUCCESS', result})
+    }).catch((err) => {
+      res.send({status: 'fail', msg: err})
+
+    })
   }
 }
 module.exports = new ControlUser();

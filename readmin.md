@@ -199,3 +199,7 @@ Hhh123456
 string-random的使用
 
 http://www.360doc.com/content/22/0731/09/72809014_1042048987.shtml
+
+
+获取所有用户接口
+获取所有活动接口
