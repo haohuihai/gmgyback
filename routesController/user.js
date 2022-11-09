@@ -184,7 +184,7 @@ class ControlUser {
   // 获取所有用户
   all_user_list (req, res) {
     // 查询条件
-    api.findData('User' ).then((result) => {
+    api.findData('User', {}, undefined).then((result) => {
       console.log('result', result)
       res.send({status: 'SUCCESS', result})
     }).catch((err) => {

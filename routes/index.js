@@ -12,7 +12,7 @@ module.exports = (app) => {
     app.post('/action/join_action', controlActions.join_action)
     app.get('/action/get_action_detail', controlActions.get_action_detail)
     app.get('/action/get_join_action_user', controlActions.get_join_action_user)
-    app.get('/action/all_action_list',  controlUser.all_action_list)
+    app.get('/action/all_action_list',  controlActions.all_action_list)
 
     app.get('/user/get_user_info', controlUser.get_user_info)
     app.post('/user/login', controlUser.login)
