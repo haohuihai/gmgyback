@@ -39,12 +39,12 @@ class ControlUser {
     let obj = {
       weixin_openid: req.headers['x-wx-openid'],
       id_card: req.body.id_card,
-      phone_pumber: req.body.phone_pumber,
+      phone_number: req.body.phone_number,
       user_name: req.body.user_name,
       id_card_image: req.body.id_card_image,
       
     }
-    let value = req.body.phone_pumber;
+    let value = req.body.phone_number;
     let code = req.body.phone_code;
 
     // 查询验证码是否正确；
@@ -65,9 +65,9 @@ class ControlUser {
           }, {
             weixin_openid: obj.weixin_openid,
         }).then(() => {
-
+          res.send({ status: "SUCCESS" });
           }).catch(() => {
-
+            res.send({ status: "fail", msg: '更新用户信息错误' });
           })
             res.send({ status: "SUCCESS", result });
           }).catch(err => {
@@ -152,18 +152,23 @@ class ControlUser {
       .then((result1) => {
         if (result1.length === 0) {
           //账号没有注册
-          api
-            .createData("User", {...obj, ...{integral: 10}})
-            .then((result) => {
-              that.addIntegar({
-                  weixin_openid: obj.weixin_openid,
-                  changeName: '注册积分',
-                  changeValue: 10
-                }, result)
-            })
-            .catch((err) => {
-              res.send({ status: "fail", msg: '创建用户:'+ err });
-            });
+         const data = api.createData("User", {...obj, ...{integral: 10}})
+         that.addIntegar({
+          weixin_openid: obj.weixin_openid,
+          changeName: '注册积分',
+          changeValue: 10
+        }, data)
+
+            // .then((result) => {
+            //   that.addIntegar({
+            //       weixin_openid: obj.weixin_openid,
+            //       changeName: '注册积分',
+            //       changeValue: 10
+            //     }, result)
+            // })
+            // .catch((err) => {
+            //   res.send({ status: "fail", msg: '创建用户:'+ err });
+            // });
         } else {
           // 账号已经注册过  更新数据
           api.updateData("User", obj, {
