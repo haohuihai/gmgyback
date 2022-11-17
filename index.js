@@ -31,7 +31,7 @@ app.use(
     })
 )
 
-
+// "canvas": "^2.10.1",
 //CORS 跨域资源共享
 //app.all(*)表示所有请求路径必须经过
 app.all("*", (req, res, next) => {

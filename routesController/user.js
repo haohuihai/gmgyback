@@ -192,5 +192,15 @@ class ControlUser {
 
     })
   }
+  // 更新用户
+  update_user_info () {
+    api.updateData('User', obj, {
+      weixin_openid: req.headers['weixin_openid']
+    }).then((result) => {
+      res.send({status: 'SUCCESS', result: result})
+    }).catch((err) => {
+      res.send({status: 'fail', msg: err})
+    })
+  }
 }
 module.exports = new ControlUser();

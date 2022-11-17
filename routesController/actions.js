@@ -120,6 +120,45 @@ class ControlAction {
     })
   }
 
+  // 获取当前活动的所有志愿者
+  get_action_user(req,res) {
+    api.findData('UserAction', {
+      action_id: req.query.action_id,
+    },['weixin_openid']).then(result => {
+      res.send({status: 'SUCCESS', result: result})
+    }).catch(err => {
+      res.send({status: 'fail', msg: err})
+    })
+  }
+
+  // user_action  weixin_openid 
+  // user          weixin_openid 
+
+  // 活动打卡
+  to_sign_action(req,res) {
+    // action_id
+    // x-wx-opendir
+    // 更新UserAction
+    api.updateData('UserAction', {
+      is_join: true,
+    }, {
+      action_id: req.query.action_id
+    }).then((result) => {
+      res.send({status: 'SUCCESS', result: result})
+    }).catch((res) => {
+      res.send({status: 'fail', msg: err})
+    })
+  }
+  // 获取我的活动 
+  get_my_action (req, res) {
+    api.findData('UserAction', {
+      weixin_openid: req.headers["x-wx-openid"],
+    }).then((result) => {
+      res.send({status: 'SUCCESS', result: result})
+    }).catch((err) => {
+      res.send({status: 'fail', msg: err})
+    })
+  }
   // 加入活动  不打卡
   join_action(req, res) {
     // 后端判断时间
@@ -140,7 +179,6 @@ class ControlAction {
       action_id: req.body.action_id,
       weixin_openid: req.headers["x-wx-openid"],
     }).then((result1) => {
-      console.log();
       if(result1.length) {
         res.send({status: "SUCCESS", msg: '已加入该活动'})
       } else {

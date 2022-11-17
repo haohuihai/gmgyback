@@ -16,7 +16,7 @@ var qr = require('qr-image');
 let nodemailer = require('nodemailer');
 const path = require('path');
 
-const clock = require('../examples/clock1')
+// const clock = require('../examples/clock1')
 
 //创建发邮件配置
 let transport = nodemailer.createTransport({
@@ -165,7 +165,7 @@ class Uitls {
     // 生成二维码
     let userQR = getQRcode(preId + middle + endId)
     // 生成名片
-    clock()
+    // clock()
     return {
       onlyRealNameNo: preId + middle + endId,
       onlyRealQR: userQR,
