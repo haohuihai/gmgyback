@@ -1,8 +1,7 @@
 global.__basename = __dirname;
 
 global.config = require(__basename + "/config")
-//导入路由
-let routes = require(__basename + "/routes");
+
 
 //导入数据库连接
 global.sequelize = require(__basename + "/db/connect.js");
@@ -10,6 +9,9 @@ global.sequelize = require(__basename + "/db/connect.js");
 
 //导入模型
 global.Model = require(__basename + "/db/model/model.js");
+
+//导入路由
+let routes = require(__basename + "/routes");
 
 let express = require("express")
 let bodyParser = require("body-parser");

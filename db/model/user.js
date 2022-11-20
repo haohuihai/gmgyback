@@ -46,7 +46,16 @@ User.init({
     allowNull: true,
     comment: '服务端token'
   },
-
+  unique_id: {
+    type: Sequelize.STRING(50),
+    defaultValue: '',
+    comment: '用户编号'
+  },
+  unique_card: {
+    type: Sequelize.STRING(200),
+    defaultValue: '',
+    comment: '用户唯一名片'
+  },
   //昵称
   nickname: {
     type: Sequelize.STRING(30),

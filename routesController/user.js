@@ -2,6 +2,7 @@
 
 //导入处理时间模块 monent
 let moment = require("moment");
+let { UserActionTime } = require(__basename + '/db/model/model.js')
 
 //导入sequelize
 let Sequelize = require("sequelize");
@@ -10,6 +11,7 @@ let Sequelize = require("sequelize");
 let api = require(__basename + "/api/api.js");
 //导入工具模块
 let { getIdCard } = require(__basename + "/utils/utils.js");
+
 // const BroadcastChannel = require("../BroadcastChannel");
 //导入白名单
 
@@ -187,11 +189,30 @@ class ControlUser {
       });
   }
   // 获取所有用户
-  all_user_list (req, res) {
+  async all_user_list  (req, res) {
     // 查询条件
+    // 同一用户  志愿时长求和
+    const totalAmountList = await UserActionTime.findAll({
+      attributes: [
+        'weixin_openid',
+      [Sequelize.fn('SUM', Sequelize.col('time')), 'total_time'],
+      ],
+      group: 'weixin_openid',
+    });
+
     api.findData('User', {}, undefined).then((result) => {
-      console.log('result', result)
-      res.send({status: 'SUCCESS', result})
+      if (Array.isArray(result) && result.length) {
+       for(let i = 0; i < result.length; i++) {
+        result[i].dataValues['total_time'] = 0;
+        console.log(result[i])
+          for (let j = 0; j < totalAmountList.length - 1;j++) {
+            if (result[i].weixin_openid === totalAmountList[j].weixin_openid) {
+              result[i].dataValues['total_time'] = totalAmountList[j].total_time
+            }
+          }
+       }
+      }
+      res.send({status: 'SUCCESS', result: result})
     }).catch((err) => {
       res.send({status: 'fail', msg: err})
 
