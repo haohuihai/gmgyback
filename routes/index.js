@@ -5,7 +5,8 @@ const upload = multer({ dest: '../upload/action' })
 
 module.exports = (app) => {
     app.get('/test', controlActions.test)
-   
+    
+    // 活动
     app.post('/action/pubish_action', controlActions.pubish_action)
     app.post('/action/get_lately_actions', controlActions.get_lately_actions)
     app.get('/action/get_my_action', controlActions.get_my_action)
@@ -14,10 +15,14 @@ module.exports = (app) => {
     app.get('/action/get_join_action_user', controlActions.get_join_action_user)
     app.get('/action/all_action_list',  controlActions.all_action_list)
 
-    app.get('/user/get_user_info', controlUser.get_user_info)
-    app.post('/user/login', controlUser.login)
+    
+    // 上传
     app.post('/upload/action_image', upload.single('file'), controlActions.action_image)
     app.get('/upload/delete_image', controlActions.delete_image)
+
+    // 用户
+    app.get('/user/get_user_info', controlUser.get_user_info)
+    app.post('/user/login', controlUser.login)
     app.post('/user/certification', controlUser.certification)
     app.post('/user/sure_certification', controlUser.sure_certification)
     app.post('/user/get_phone_code', controlUser.get_phone_code)

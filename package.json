@@ -12,7 +12,6 @@
     "@alicloud/pop-core": "^1.7.10",
     "body-parser": "^1.20.1",
     "broadcast-channel": "^3.5.3",
-    "canvas": "^2.10.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.6",
     "express": "^4.18.2",
