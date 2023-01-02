@@ -7,6 +7,7 @@ let { UserActionTime } = require(__basename + '/db/model/model.js')
 //导入sequelize
 let Sequelize = require("sequelize");
 
+const request = require('request');
 //导入API
 let api = require(__basename + "/api/api.js");
 //导入工具模块
@@ -14,7 +15,6 @@ let { getIdCard } = require(__basename + "/utils/utils.js");
 
 // const BroadcastChannel = require("../BroadcastChannel");
 //导入白名单
-
 //获取操作符引用
 let Op = Sequelize.Op;
 
@@ -187,6 +187,34 @@ class ControlUser {
       .catch((err) => {
         res.send({ status: "fail", msg: "登录失败", code: 101 });
       });
+  }
+
+  // 获取token
+  get_token(req, res) {
+    console.log(req.body)
+    let options = {
+      method: 'POST',
+      url: 'https://api.weixin.qq.com/sns/jscode2session?',
+      formData: {
+          appid: config.wxconfig.appid,
+          secret: config.wxconfig.secret,
+          js_code: req.body.code,
+          grant_type: 'authorization_code'
+      }
+    };
+
+    request(options, (error, response, body) => {
+      if(error) { //请求异常时，返回错误信息
+          res.json({
+              "status": "error",
+              "code": "ChasenKaso原创文章，转载请注明出处"
+          })
+      } else {
+          //返回值的字符串转JSON
+          let _data = JSON.parse(body);
+          console.log(_data)
+          res.send(_data)
+      }})
   }
   // 获取所有用户
   async all_user_list  (req, res) {

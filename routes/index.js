@@ -23,6 +23,7 @@ module.exports = (app) => {
     // 用户
     app.get('/user/get_user_info', controlUser.get_user_info)
     app.post('/user/login', controlUser.login)
+    app.post('/user/get_token', controlUser.get_token)
     app.post('/user/certification', controlUser.certification)
     app.post('/user/sure_certification', controlUser.sure_certification)
     app.post('/user/get_phone_code', controlUser.get_phone_code)

@@ -17,12 +17,13 @@ const Core = require('@alicloud/pop-core');
 
 
 // 本地数据库配置
-// const MysqlConfig = {
-//   port: '3306',
-//   host: '127.0.0.1',
-//   username: 'gmgy',
-//   servicePort: 10000
-// }
+const MysqlConfig = {
+  port: '3306',
+  host: '127.0.0.1',
+  username: 'root',
+  password: 'root',
+  servicePort: 10000
+}
 
 //  线上服务
 // const MysqlConfig = {
@@ -30,15 +31,18 @@ const Core = require('@alicloud/pop-core');
 //   host: '10.13.107.2',
 //   username: 'root',
 //   servicePort: 80
+//   password: 'Hhh123456'
+//  
 // }
 
 // 101服务上的连接
-const MysqlConfig = {
-  port: '3306',
-  host: '101.132.124.188',
-  username: 'gmgy',
-  servicePort: 10000
-}
+// const MysqlConfig = {
+//   port: '3306',
+//   host: '101.132.124.188',
+//   username: 'gmgy',
+//   password: 'Hhh123456'
+//   servicePort: 10000
+// }
 
 //服务器配置
 exports.serverOptions = {
@@ -48,6 +52,10 @@ exports.serverOptions = {
   port: MysqlConfig.servicePort
 }
 
+exports.wxconfig = {
+  appid: 'wx1e1cbc90b9cc626f',
+  secret: 'bc94bb552de463205bc2b1b648170b81'
+}
 
 
 //mysql数据库配置
@@ -60,7 +68,7 @@ exports.mysqlOptions = {
   port: MysqlConfig.port,
 
   //密码
-  password: 'Hhh123456',
+  password: MysqlConfig.password,
 
   //连接地址
   host: MysqlConfig.host,

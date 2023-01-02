@@ -16,7 +16,6 @@ var qr = require('qr-image');
 let nodemailer = require('nodemailer');
 const path = require('path');
 
-// const clock = require('../examples/clock1')
 
 //创建发邮件配置
 let transport = nodemailer.createTransport({
