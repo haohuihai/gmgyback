@@ -11,8 +11,9 @@ const request = require('request');
 //导入API
 let api = require(__basename + "/api/api.js");
 //导入工具模块
-let { getIdCard } = require(__basename + "/utils/utils.js");
-
+let utils = require(__basename + "/utils/utils.js");
+//导入白名单
+let whiteList = require(__basename + '/utils/whiteList.js');
 // const BroadcastChannel = require("../BroadcastChannel");
 //导入白名单
 //获取操作符引用
@@ -20,10 +21,33 @@ let Op = Sequelize.Op;
 
 class ControlUser {
 
+    //登录验证
+    validLogin(req, res, next) {
+      console.log('req.url ==>-------------------------------- ', req.url);
+  
+      let url = req.url.split('?')[0];
+  
+      if (whiteList.tokenList.indexOf(url) > -1) {
+        //截取token
+        
+        let token = req.headers['token'];
+        console.log('token-------', token);
+        //需要验证token
+        utils.verifyToken(token, (err, decode) => {
+          if (err) {
+            res.send({msg: '请先登录', code: 303});
+          } else {
+            req.openid = decode.data;
+            next();
+          }
+        })
+  
+      } else {
+        next();
+      }
+    }
   // 增加积分
   addIntegar (obj ,result) {
-
-    console.log('-----',obj, result)
     api.createData('Integral', {
       weixin_openid: obj.weixin_openid,
       integral_change_name: obj.changeName,
@@ -109,7 +133,7 @@ class ControlUser {
 
     if (req.body.status === 2) {
       // 这行执行完会生成一个名片，编号
-      const {onlyRealNameNo, onlyRealQR} = await getIdCard(obj.id_card)
+      const {onlyRealNameNo, onlyRealQR} = await utils.getIdCard(obj.id_card)
 
       // 获取名片名称
       // 在/assets/user/card文件夹下找身份证号对应的id
@@ -128,11 +152,11 @@ class ControlUser {
   get_user_info (req,res) {
     api
       .findData("User", {
-        weixin_openid: req.headers['x-wx-openid'],
+        weixin_openid: req.openid,
       }).then(result => {
-        res.send({ status: "SUCCESS", result: result});
+        res.send({ code: 200, result: result});
       }).catch(err => {
-        res.send({ status: "fail", msg: err});
+        res.send({ code: 400, msg: err});
       })
   }
   
@@ -191,7 +215,6 @@ class ControlUser {
 
   // 获取token
   get_token(req, res) {
-    console.log(req.body)
     let options = {
       method: 'POST',
       url: 'https://api.weixin.qq.com/sns/jscode2session?',
@@ -205,17 +228,62 @@ class ControlUser {
 
     request(options, (error, response, body) => {
       if(error) { //请求异常时，返回错误信息
-          res.json({
-              "status": "error",
-              "code": "ChasenKaso原创文章，转载请注明出处"
-          })
+        res.send({
+          code: 400,
+          msg: '服务器异常'
+        })
       } else {
           //返回值的字符串转JSON
-          let _data = JSON.parse(body);
-          console.log(_data)
-          res.send(_data)
+          const _data = JSON.parse(body);
+
+          const token = utils.signToken(_data.openid, '1d');
+          
+          // 根据openid查询用户是否存在，存在与否都需要告诉前端
+          api.findData('User', {
+            weixin_openid: _data.openid
+          }).then(result => {
+            // 新注册用户
+            //生成token
+            const o = {
+              weixin_openid: _data.openid
+            }
+            if (result.length == 0) {
+              api.createData('User', o).then((result1) => {
+                res.send({
+                  code: 200,
+                  isfirst: true,
+                  token: token
+                })
+              })
+            } else {
+              res.send({
+                code: 200,
+                isfirst: true,
+                token: token
+              })
+            }
+          })
       }})
   }
+
+  // 修改用户信息 
+  set_user_info (req, res) {
+    // 解析token
+    const o = req.body
+    api.updateData('User', o, {
+      weixin_openid: req.openid
+    }).then((result) => {
+      res.send({
+        code: 200,
+      })
+    }).catch((err) => {
+      res.send({
+        code: 400,
+        msg: '服务器错误'
+      })
+    })
+  }
+  
   // 获取所有用户
   async all_user_list  (req, res) {
     // 查询条件
@@ -232,7 +300,6 @@ class ControlUser {
       if (Array.isArray(result) && result.length) {
        for(let i = 0; i < result.length; i++) {
         result[i].dataValues['total_time'] = 0;
-        console.log(result[i])
           for (let j = 0; j < totalAmountList.length - 1;j++) {
             if (result[i].weixin_openid === totalAmountList[j].weixin_openid) {
               result[i].dataValues['total_time'] = totalAmountList[j].total_time
